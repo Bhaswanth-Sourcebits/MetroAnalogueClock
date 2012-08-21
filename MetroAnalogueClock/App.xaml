@@ -1,0 +1,47 @@
+﻿<Application
+    x:Class="MetroAnalogueClock.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MetroAnalogueClock">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <!-- 
+                    Styles that define common aspects of the platform look and feel
+                    Required by Visual Studio project and item templates
+                 -->
+                <ResourceDictionary Source="Common/StandardStyles.xaml"/>
+                
+                
+            </ResourceDictionary.MergedDictionaries>
+
+<SolidColorBrush
+                x:Key="FaceBackgroundBrush"
+                Color="Black" />
+
+            <SolidColorBrush
+                x:Key="FaceForegroundBrush"
+                Color="#FF9B0D0D" />
+
+            <SolidColorBrush
+                x:Key="SecondHandBrush"
+                Color="#FF9B0D0D" />
+            <SolidColorBrush
+                x:Key="MinuteHandBrush"
+                Color="White" />
+            <SolidColorBrush
+                x:Key="HourHandBrush"
+                Color="Silver" />
+
+            <SolidColorBrush
+                x:Key="RimForegroundBrush"
+                Color="#FF970505" />
+
+            <SolidColorBrush
+                x:Key="RimBackgroundBrush"
+                Color="CadetBlue" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
