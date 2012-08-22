@@ -19,7 +19,7 @@
 
 <SolidColorBrush
                 x:Key="FaceBackgroundBrush"
-                Color="Black" />
+                Color="#202020" />
 
             <SolidColorBrush
                 x:Key="FaceForegroundBrush"
@@ -30,18 +30,25 @@
                 Color="#FF9B0D0D" />
             <SolidColorBrush
                 x:Key="MinuteHandBrush"
-                Color="White" />
+                Color="WhiteSmoke" />
             <SolidColorBrush
                 x:Key="HourHandBrush"
-                Color="Silver" />
+                Color="WhiteSmoke" />
 
             <SolidColorBrush
                 x:Key="RimForegroundBrush"
-                Color="#FF970505" />
+                Color="WhiteSmoke" />
 
             <SolidColorBrush
                 x:Key="RimBackgroundBrush"
-                Color="CadetBlue" />
+                Color="#888885"
+                
+                />
+            
+            <SolidColorBrush
+                x:Key="BlackBrush"
+                Color="Black" />
+            
         </ResourceDictionary>
     </Application.Resources>
 </Application>

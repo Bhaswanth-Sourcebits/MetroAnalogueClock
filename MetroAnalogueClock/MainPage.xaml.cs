@@ -28,9 +28,10 @@ namespace MetroAnalogueClock
             timer.Tick += (object sender, object e) =>
             {
                  time = DateTime.Now;
-                SecondHand(time.Second);
                 MinuteHand(time.Minute, time.Second);
                 HourHand(time.Hour, time.Minute, time.Second);
+                SecondHand(time.Second);
+                
             };
             timer.Start();
         }
@@ -43,11 +44,11 @@ namespace MetroAnalogueClock
         private Rectangle minutesHand;
         private Rectangle hoursHand;
         private double diameter;
-        private int secondsWidth = 1;
+        private int secondsWidth = 2;
         private int secondsHeight;
-        private int minutesWidth = 5;
+        private int minutesWidth = 12;
         private int minutesHeight;
-        private int hoursWidth = 8;
+        private int hoursWidth = 12;
         private int hoursHeight;
         private Brush faceBackground = ((Brush)App.Current.Resources["FaceBackgroundBrush"]);
         private Brush faceForeground = ((Brush)App.Current.Resources["FaceForegroundBrush"]);
@@ -56,10 +57,12 @@ namespace MetroAnalogueClock
         private Brush HourHandBackGround = ((Brush)App.Current.Resources["HourHandBrush"]);
         private Brush rimForeground = ((Brush)App.Current.Resources["RimForegroundBrush"]);
         private Brush rimBackground = ((Brush)App.Current.Resources["RimBackgroundBrush"]);
+        private Brush blackBrush = ((Brush)App.Current.Resources["BlackBrush"]);
 
         private Rectangle Hand(double width, double height,
                 Brush background, double radiusX, double radiusY, double thickness)
         {
+            
             Rectangle hand = new Rectangle();
             hand.Width = width;
             hand.Height = height;
@@ -67,10 +70,11 @@ namespace MetroAnalogueClock
             hand.StrokeThickness = thickness;
             hand.RadiusX = radiusX;
             hand.RadiusY = radiusY;
+            
             return hand;
         }
-
-        private void RemoveHand(ref Rectangle hand)
+        
+        private void RemoveHand(Rectangle hand)
         {
             if (hand != null && face.Children.Contains(hand))
             {
@@ -78,7 +82,7 @@ namespace MetroAnalogueClock
             }
         }
 
-        private void AddHand(ref Rectangle hand)
+        private void AddHand(Rectangle hand)
         {
             if (!face.Children.Contains(hand))
             {
@@ -105,32 +109,39 @@ namespace MetroAnalogueClock
 
         private void SecondHand(int seconds)
         {
-            RemoveHand(ref secondsHand);
+            RemoveHand( secondsHand);
             
                 secondsHand = Hand(secondsWidth, secondsHeight, SecondHandBackGround, 0, 0, 0);
-                secondsHand.RenderTransform = TransformGroup(seconds * 6, 0, -secondsHeight);
-                AddHand(ref secondsHand);
+                Ellipse center = new Ellipse();
+                center.Width = 10;
+                center.Height = 10;
+                center.Fill = SecondHandBackGround;
+                Canvas.SetTop(center, diameter / 2 -5);
+                Canvas.SetLeft(center, diameter / 2 -5);
+                face.Children.Add(center);
+                secondsHand.RenderTransform = TransformGroup(seconds * 6, 0, -secondsHeight +50);
+                AddHand( secondsHand);
                   }
 
         private void MinuteHand(int minutes, int seconds)
         {
-            RemoveHand(ref minutesHand);
+            RemoveHand( minutesHand);
             
                 minutesHand = Hand(minutesWidth, minutesHeight, MinuteHandBackGround, 2, 2, 0.6);
                 minutesHand.RenderTransform = TransformGroup(6 * minutes + seconds / 10,
-                0, -minutesHeight);
-                AddHand(ref minutesHand);
+                -6, -minutesHeight+50);
+                AddHand( minutesHand);
            
         }
 
         private void HourHand(int hours, int minutes, int seconds)
         {
-            RemoveHand(ref hoursHand);
+            RemoveHand( hoursHand);
             
                 hoursHand = Hand(hoursWidth, hoursHeight, HourHandBackGround, 3, 3, 0.6);
                 hoursHand.RenderTransform = TransformGroup(30 * hours + minutes / 2 + seconds / 120,
-                0, -hoursHeight);
-                AddHand(ref hoursHand);
+                -6, -hoursHeight+30);
+                AddHand( hoursHand);
             
         }
 
@@ -138,18 +149,21 @@ namespace MetroAnalogueClock
         {
             Ellipse rim = new Ellipse();
             Ellipse inner = new Ellipse();
+            
             canvas.Children.Clear();
             diameter = canvas.Width;
             rim.Height = diameter;
             rim.Width = diameter;
             rim.Fill = rimBackground;
             canvas.Children.Add(rim);
-            inner.Width = diameter - 40;
-            inner.Height = diameter - 40;
+            inner.Width = diameter - 30;
+            inner.Height = diameter - 30;
             inner.Fill = faceBackground;
-            Canvas.SetTop(inner, 20);
-            Canvas.SetLeft(inner, 20);
+            inner.Stroke = blackBrush;
+            Canvas.SetTop(inner, 15);
+            Canvas.SetLeft(inner, 15);
             canvas.Children.Add(inner);
+            
             markers.Children.Clear();
             markers.Width = diameter;
             markers.Height = diameter;
@@ -160,16 +174,16 @@ namespace MetroAnalogueClock
                 if ((i % 5) == 0)
                 {
 
-                    marker.Width = 3;
-                    marker.Height = 8;
-                    marker.RenderTransform = TransformGroup(i * 6, 0, (diameter-40)/2 + (20 - marker.Height)/2  );
+                    marker.Width = 12;
+                    marker.Height = 30;
+                    marker.RenderTransform = TransformGroup(i * 6, -5, (diameter-30)/2 - 40 );
                 }
                 else
                 {
                     marker.Width = 1;
-                    marker.Height = 4;
+                    marker.Height = 6;
                     marker.RenderTransform = TransformGroup(i * 6, 0,
-                    (diameter - 40) / 2 + (20 - marker.Height) / 2);
+                    (diameter - 30) / 2 -16);
                 }
                 markers.Children.Add(marker);
             }
@@ -177,9 +191,9 @@ namespace MetroAnalogueClock
             face.Width = diameter;
             face.Height = diameter;
             canvas.Children.Add(face);
-            secondsHeight = (int)diameter / 2 - 20;
-            minutesHeight = (int)diameter / 2 - 40;
-            hoursHeight = (int)diameter / 2 - 80;
+            secondsHeight = (int)diameter / 2 -10 ;
+            minutesHeight = (int)diameter / 2 - 20;
+            hoursHeight = (int)diameter / 2 - 60;
         }
 
         
